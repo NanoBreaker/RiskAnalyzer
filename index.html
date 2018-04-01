@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <!-- AngularJS Material CSS now available via Google CDN; version 1.1.6 used here -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.6/angular-material.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="style.css">
+
+        <title>RiskAnalyzer</title>
+    </head>
+
+    <body ng-app="RiskAnalyzer" ng-controller="MainController" layout="column">
+
+        <md-toolbar layout-align="center center">
+            <h1>Веб приложение для анализа рисков проведения транзации</h1>
+        </md-toolbar>
+
+        <div class="container" layout="row" flex>
+            <md-sidenav md-is-locked-open="true" class="md-whiteframe-15dp" layout-align="start center">
+                <md-list>
+                    <md-list-item><h2>Инстуркция</h2></md-list-item>
+                    <md-list-item>Загрузите XML файл используя кнопку загрузки</md-list-item>
+                    <md-list-item>Нажмите на кнопку "Провести анализ рисков"</md-list-item>
+                    <md-list-item>Просмотрите результат проверки</md-list-item>
+                </md-list>
+            </md-sidenav>
+
+            <md-content id="content" layout="column" layout-align="start center" class="md-whiteframe-15dp" style="width: 100%">
+
+                <div>
+                    <input class="ng-hide" id="file" multiple type="file" />
+                    <label for="file" class="md-button md-raised md-primary">Выберите XML файл для загрузки</label>
+                    <md-button class="md-raised md-warn" ng-click="add()">Провести анализ рисков</md-button>
+                </div>
+
+
+                <h2 class="md-title">Результат анализа:</h2>
+                <p>
+                    Данная шкала показывает уровень риска транзакции, от 0 до 100 процентов
+                </p>
+                <md-progress-linear md-mode="determinate" value="{{risk_level}}"></md-progress-linear>
+                <div ng-show="check_json_output_state()">
+                    <h3>УРОВЕНЬ РИСКА {{risk_level}}%</h3>
+                </div>
+
+                <md-toolbar ng-show="check_json_output_state()" class="md-warn">
+                    <div class="md-toolbar-tools">
+                        <h2 class="md-flex">Транзакция в виде JSON объекта: </h2>
+                    </div>
+                </md-toolbar>
+                <md-content ng-show="check_json_output_state()" id="json_output" class="md-whiteframe-4dp" style="height: 50%">
+                    {{data}}
+                </md-content>
+
+            </md-content>
+        </div>
+
+        <!-- AngularJS Material Dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-messages.min.js"></script>
+
+        <!-- AngularJS Material Javascript now available via Google CDN; version 1.1.4 used here -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.6/angular-material.min.js"></script>
+
+        <script src="app/app.js"></script>
+        <script src="app/controllers/controllers.js"></script>
+        <script src="app/directives/directives.js"></script>
+        <script src="app/services/xml2json.js"></script>
+        <script src="node_modules/jsonformatter/src/json-formatter.js"></script>
+    </body>
+</html>
